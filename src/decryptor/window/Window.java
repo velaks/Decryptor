@@ -4,12 +4,19 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+
+import decryptor.analysis.Frequency;
 
 public class Window extends JPanel {
 	JButton analysis, decryption, clear;
@@ -61,6 +68,20 @@ public class Window extends JPanel {
 		add(analysis, new GridBagConstraints(0, 10, 1, 1, 0, 0, GridBagConstraints.CENTER,
 				GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 
 				0, 0));
+		analysis.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String text = f.getText();
+				Frequency fr = new Frequency(text);
+				String str = new String();
+				for (Map.Entry entry : fr.count().entrySet()) {
+				   str += entry.getKey() + " = "+ entry.getValue() + "\n";
+				}
+				setDisplayValue(str);
+			}
+			
+		});
 		
 		decryption = new JButton("Decryption");
 		add(decryption, new GridBagConstraints(1, 10, 1, 1, 0, 0, GridBagConstraints.CENTER,
@@ -76,8 +97,8 @@ public class Window extends JPanel {
 		
 	}
 	
-	public void setDisplayValue(String val) {
-		f.setText(val);
+	public void setDisplayValue(String str) {
+		r.setText(str);
 	}
 	
 	public String getDisplayValue(){
@@ -93,8 +114,8 @@ public class Window extends JPanel {
 		Window w = new Window();
 		JFrame jf = new JFrame("Decryptor");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.add(w);
 		jf.setLocationRelativeTo(null);
+		jf.add(w);
 		jf.setSize(800, 700);
 		jf.setResizable(false);
 		jf.setVisible(true);
