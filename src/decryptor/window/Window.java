@@ -6,17 +6,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
-
 import decryptor.analysis.Frequency;
+import decryptor.decrypt.Decrypt;
 
 public class Window extends JPanel {
 	JButton analysis, decryption, clear;
@@ -63,11 +61,12 @@ public class Window extends JPanel {
 		gbc.ipady = 0;
 		add(rScroll, gbc);
 		
-		//simpler
+		//shorter
 		analysis = new JButton("Analysis");
 		add(analysis, new GridBagConstraints(0, 10, 1, 1, 0, 0, GridBagConstraints.CENTER,
 				GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 
 				0, 0));
+		
 		analysis.addActionListener(new ActionListener() {
 
 			@Override
@@ -88,12 +87,33 @@ public class Window extends JPanel {
 				GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 
 				0, 0));
 		
+		decryption.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String text = f.getText();
+				Decrypt dec = new Decrypt(text);
+				String str = new String();
+				
+				setDisplayValue(str);
+			}
+			
+		});
+		
 		clear = new JButton("Clear");
 		add(clear, new GridBagConstraints(2, 10, 1, 1, 0, 0, GridBagConstraints.CENTER,
 				GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 
 				0, 0));
 		
-		
+		clear.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String clear = "";
+				r.setText(clear);
+				f.setText(clear);
+			}
+		});
 		
 	}
 	
