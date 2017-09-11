@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +22,9 @@ public class Window extends JPanel {
 	private JTextArea f;
 	private JTextArea r;
 	GridBagConstraints gbc = new GridBagConstraints();
+	HashMap<String, Integer> list = new HashMap<>();
+	Frequency fr;
+	Decrypt dec;
 	
 	public Window() {
 		setLayout(new GridBagLayout());
@@ -72,14 +76,14 @@ public class Window extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String text = f.getText();
-				Frequency fr = new Frequency(text);
+				fr = new Frequency(text);
+				list = fr.count();
 				String str = new String();
-				for (Map.Entry entry : fr.count().entrySet()) {
+				for (Map.Entry entry : list.entrySet()) {
 				   str += entry.getKey() + " = "+ entry.getValue() + "\n";
 				}
 				setDisplayValue(str);
-			}
-			
+			}	
 		});
 		
 		decryption = new JButton("Decryption");
@@ -91,13 +95,14 @@ public class Window extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String text = f.getText();
-				Decrypt dec = new Decrypt(text);
+				String cipher = f.getText();
+				fr = new Frequency(cipher);
+				HashMap<String, Integer> cipherList = fr.count();
+				dec = new Decrypt(cipher, list, cipherList);
 				String str = new String();
 				
 				setDisplayValue(str);
-			}
-			
+			}	
 		});
 		
 		clear = new JButton("Clear");
@@ -113,8 +118,7 @@ public class Window extends JPanel {
 				r.setText(clear);
 				f.setText(clear);
 			}
-		});
-		
+		});	
 	}
 	
 	public void setDisplayValue(String str) {
@@ -139,9 +143,7 @@ public class Window extends JPanel {
 		jf.setSize(800, 700);
 		jf.setResizable(false);
 		jf.setVisible(true);
-		jf.pack();
-		
-		
+		jf.pack();	
 	}
 }
 
