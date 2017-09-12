@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 public class Frequency {
 	
-	private HashMap<String, Integer> list = new HashMap<>();
+	private HashMap<String, Integer> listLet = new HashMap<>();
+	private HashMap<String, Integer> listBigr = new HashMap<>();
 	private String text;
 
 	public Frequency(String text) {
@@ -19,12 +20,27 @@ public class Frequency {
 			
 			if(Character.isLetter(text.charAt(i))) {
 				String s = String.valueOf(text.charAt(i));
-				Integer f = list.get(s);
-				list.put(text.substring(i, i+1), f == null ? 1 : ++f);
+				Integer f = listLet.get(s);
+				listLet.put(text.substring(i, i+1), f == null ? 1 : ++f);
 			}
 		}
-		list = sortMap(list);
-		return list;
+		listLet = sortMap(listLet);
+		return listLet;
+	}
+	
+	public HashMap<String, Integer> countBigr() {
+		for(int i = 0; i < text.length()-2; i++) {
+			
+			if(Character.isLetter(text.charAt(i)) && Character.isLetter(text.charAt(i+1))) {
+				String s = text.substring(i, i+2);
+				Integer f = listBigr.get(s);
+				listBigr.put(text.substring(i, i+2), f == null ? 1 : ++f);
+			} else {
+				i++;
+			}
+		}
+		listBigr = sortMap(listBigr);
+		return listBigr;
 	}
 	
 	private HashMap<String, Integer> sortMap(HashMap<String, Integer> uns) {

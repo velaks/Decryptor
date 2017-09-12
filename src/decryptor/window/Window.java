@@ -24,6 +24,7 @@ public class Window extends JPanel {
 	private JTextArea r;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private HashMap<String, Integer> list = new HashMap<>();
+	private HashMap<String, Integer> listBigr;
 	private Frequency fr;
 	private Decrypt dec;
 	
@@ -79,6 +80,7 @@ public class Window extends JPanel {
 				String text = f.getText();
 				fr = new Frequency(text);
 				list = fr.count();
+				listBigr = fr.countBigr();
 				String str = new String();
 				for (Map.Entry entry : list.entrySet()) {
 				   str += entry.getKey() + " = "+ entry.getValue() + "\n";
@@ -99,7 +101,8 @@ public class Window extends JPanel {
 				String cipher = f.getText();
 				fr = new Frequency(cipher);
 				HashMap<String, Integer> cipherList = fr.count();
-				dec = new Decrypt(cipher, list, cipherList);
+				HashMap<String, Integer> cipherListBigr = fr.countBigr();
+				dec = new Decrypt(cipher, list, cipherList, listBigr, cipherListBigr);
 				String str = new String();
 				str = dec.DecryptT();
 				
