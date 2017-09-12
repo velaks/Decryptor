@@ -1,5 +1,6 @@
 package decryptor.window;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,13 +19,13 @@ import decryptor.analysis.Frequency;
 import decryptor.decrypt.Decrypt;
 
 public class Window extends JPanel {
-	JButton analysis, decryption, clear;
+	private JButton analysis, decryption, clear;
 	private JTextArea f;
 	private JTextArea r;
-	GridBagConstraints gbc = new GridBagConstraints();
-	HashMap<String, Integer> list = new HashMap<>();
-	Frequency fr;
-	Decrypt dec;
+	private GridBagConstraints gbc = new GridBagConstraints();
+	private HashMap<String, Integer> list = new HashMap<>();
+	private Frequency fr;
+	private Decrypt dec;
 	
 	public Window() {
 		setLayout(new GridBagLayout());
@@ -100,6 +101,7 @@ public class Window extends JPanel {
 				HashMap<String, Integer> cipherList = fr.count();
 				dec = new Decrypt(cipher, list, cipherList);
 				String str = new String();
+				str = dec.DecryptT();
 				
 				setDisplayValue(str);
 			}	
@@ -135,15 +137,23 @@ public class Window extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		Window w = new Window();
-		JFrame jf = new JFrame("Decryptor");
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setLocationRelativeTo(null);
-		jf.add(w);
-		jf.setSize(800, 700);
-		jf.setResizable(false);
-		jf.setVisible(true);
-		jf.pack();	
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Window w = new Window();
+					JFrame jf = new JFrame("Decryptor");
+					jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					jf.setLocationRelativeTo(null);
+					jf.add(w);
+					jf.setSize(800, 700);
+					jf.setResizable(false);
+					jf.setVisible(true);
+					jf.pack();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }
 
