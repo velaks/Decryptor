@@ -82,10 +82,15 @@ public class Window extends JPanel {
 				list = fr.count();
 				listBigr = fr.countBigr();
 				String str = new String();
+				String bigrStr = new String();
 				for (Map.Entry entry : list.entrySet()) {
 				   str += entry.getKey() + " = "+ entry.getValue() + "\n";
 				}
-				setDisplayValue(str);
+				for (Map.Entry entry : listBigr.entrySet()) {
+					   str += entry.getKey() + " = "+ entry.getValue() + "\n";
+					}
+				
+				setDisplayValue(str + bigrStr);
 			}	
 		});
 		
