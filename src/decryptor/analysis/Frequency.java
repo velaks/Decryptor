@@ -4,7 +4,12 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-
+/*
+ * В объекте данного класса проводится частотный анализ букв и биграмм.
+ *
+ * Методы count(), countBigr() считают частоту появлений отдельного знака (в случае countBigr() - двух знаков)  в тексте.
+ * Метод sortMap() сортируюет получившуюся коллекцию по убыванию частоты.
+ */
 public class Frequency {
 	
 	private HashMap<String, Integer> listLet = new HashMap<>();

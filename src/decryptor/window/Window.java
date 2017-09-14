@@ -17,7 +17,9 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import decryptor.analysis.Frequency;
 import decryptor.decrypt.Decrypt;
-
+/*
+ * Формирование GUI, назначение кнопок, работа с текстом.
+ */
 public class Window extends JPanel {
 	private JButton analysis, decryption, clear;
 	private JTextArea f;
@@ -25,6 +27,8 @@ public class Window extends JPanel {
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private HashMap<String, Integer> list = new HashMap<>();
 	private HashMap<String, Integer> listBigr;
+	HashMap<String, Integer> cipherList;
+	HashMap<String, Integer> cipherListBigr;
 	private Frequency fr;
 	private Decrypt dec;
 	
@@ -77,10 +81,10 @@ public class Window extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String text = f.getText();
-				fr = new Frequency(text);
-				list = fr.count();
-				listBigr = fr.countBigr();
+				String text = f.getText(); 
+				fr = new Frequency(text); //анализ "контрольного" текста, для сбора статистики 
+				list = fr.count();		//
+				listBigr = fr.countBigr();//
 				String str = new String();
 				String bigrStr = new String();
 				for (Map.Entry entry : list.entrySet()) {
@@ -104,9 +108,9 @@ public class Window extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String cipher = f.getText();
-				fr = new Frequency(cipher);
-				HashMap<String, Integer> cipherList = fr.count();
-				HashMap<String, Integer> cipherListBigr = fr.countBigr();
+				fr = new Frequency(cipher); //анализ шифротекста
+				cipherList = fr.count();
+				cipherListBigr = fr.countBigr();
 				dec = new Decrypt(cipher, list, cipherList, listBigr, cipherListBigr);
 				String str = new String();
 				str = dec.DecryptT();
@@ -114,7 +118,9 @@ public class Window extends JPanel {
 				setDisplayValue(str);
 			}	
 		});
-		
+		/*
+		 * Очистка тексовых полей и переменных.
+		 */
 		clear = new JButton("Clear");
 		add(clear, new GridBagConstraints(2, 10, 1, 1, 0, 0, GridBagConstraints.CENTER,
 				GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 
@@ -127,6 +133,10 @@ public class Window extends JPanel {
 				String clear = "";
 				r.setText(clear);
 				f.setText(clear);
+				list.clear();
+				listBigr.clear();
+				cipherList.clear();
+				cipherListBigr.clear();;
 			}
 		});	
 	}
